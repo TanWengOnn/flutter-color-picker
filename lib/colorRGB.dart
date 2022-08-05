@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_navigation/homePage.dart';
+import 'package:flutter_navigation/rgbSlider.dart';
+
 
 class ColorRGB extends StatefulWidget {
   const ColorRGB({Key? key}) : super(key: key);
@@ -13,6 +14,23 @@ class _ColorRGBState extends State<ColorRGB> {
   double green = 0;
   double blue = 0;
 
+  // void onPanStart(DragStartDetails details) {
+  //   print('User started drawing');
+  //   final box = context.findRenderObject() as RenderBox;
+  //   final point = box.globalToLocal(details.globalPosition);
+  //   print(point);
+  // }
+  //
+  // void onPanUpdate(DragUpdateDetails details) {
+  //   final box = context.findRenderObject() as RenderBox;
+  //   final point = box.globalToLocal(details.globalPosition);
+  //   print(point);
+  // }
+  //
+  // void onPanEnd(DragEndDetails details) {
+  //   print('User ended drawing');
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,36 +39,26 @@ class _ColorRGBState extends State<ColorRGB> {
       ),
       body: Column(
         children: [
-          Slider(
-              min: 0,
-              max: 255,
-              value: red,
-              onChanged: (value) {
+          RgbSlider(red, (value) {
                 setState(() {
                   red = value;
-                  //print(red);
                 });
-              }),
-          Slider(
-              min: 0,
-              max: 255,
-              value: green,
-              onChanged: (value) {
+              }
+          ),
+          RgbSlider(
+              green, (value) {
                 setState(() {
                   green = value;
-                  //print(green);
                 });
-              }),
-          Slider(
-              min: 0,
-              max: 255,
-              value: blue,
-              onChanged: (value) {
+              }
+          ),
+          RgbSlider(
+              blue, (value) {
                 setState(() {
                   blue = value;
-                  //print(blue);
                 });
-              }),
+              }
+          ),
           CircleAvatar(
             backgroundColor: Color.fromRGBO( red.toInt(), green.toInt(), blue.toInt(), 1),
             radius: 40,
@@ -80,8 +88,57 @@ class _ColorRGBState extends State<ColorRGB> {
               },
               child: Text("Select")
           ),
+          // Container(
+          //   width: 100,
+          //   height: 100,
+          //   color: Colors.yellow[100],
+          //   child: CustomPaint(
+          //     painter: myPainter(),
+          //     //size: Size.square(20),
+          //   ),
+          // ),
+          // GestureDetector(
+          //   onPanStart: onPanStart,
+          //   onPanUpdate: onPanUpdate,
+          //   onPanEnd: onPanEnd,
+          //   child: RepaintBoundary(
+          //     child: Container(
+          //       color: Colors.transparent,
+          //       width: MediaQuery.of(context).size.width,
+          //       height: MediaQuery.of(context).size.height,
+          //       // CustomPaint widget will go here
+          //     ),
+          //   ),
+          // )
         ],
       ),
     );
+  }
+}
+
+class myPainter extends CustomPainter{
+  @override
+  void paint(Canvas canvas, Size size) {
+    //var paint = Paint()..color = Colors.blue;
+    // Paint paint = Paint()..color = Colors.black
+    //   ..style = PaintingStyle.stroke
+    //   ..strokeWidth = 5;
+    // //canvas.drawPath(Path(), paint);
+    // canvas.drawRect(Rect.fromCenter(center: Offset(0, 175), width: 275, height: 250),paint);
+
+    // 1
+    Offset startPoint = Offset(0, 0);
+    // 2
+    Offset endPoint = Offset(size.width, size.height);
+    // 3
+    Paint paint = Paint();
+    // 4
+    canvas.drawLine(startPoint, endPoint, paint);
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) {
+
+    return true;
   }
 }
